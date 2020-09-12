@@ -1,0 +1,25 @@
+body {
+  margin: 0px;
+  height: 0px;
+}
+body #container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  height: 100vh;
+}
+body #container #sidebar {
+  width: 20vw;
+  height: 100vh;
+  background-color: rgba(255, 0, 0, 0.3);
+}
+body #container #directory {
+  width: 20vw;
+  height: 100vh;
+  background-color: rgba(0, 255, 0, 0.3);
+}
+body #container #filePage {
+  width: 60vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 255, 0.3);
+}
