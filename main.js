@@ -8,6 +8,8 @@ app.on('ready', () => {
   MainWindow = new BrowserWindow({
     width: 1000,
     hight: 800,
+    minWidth: 800,
+    minHeight: 600,
     webPreferences: {
       nodeIntegration: true,      // 渲染进程中可以使用 nodejs
       enableRemoteModule: true    // 渲染进程中可以使用 remote (用来获取 electron 中的对象)

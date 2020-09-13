@@ -11,15 +11,30 @@ body #container {
 body #container #sidebar {
   width: 20vw;
   height: 100vh;
-  background-color: rgba(255, 0, 0, 0.3);
+  background-color: #fff;
+  overflow: hidden;
+}
+body #container #sidebar iframe {
+  width: 100%;
+  height: 100%;
 }
 body #container #directory {
   width: 20vw;
   height: 100vh;
   background-color: rgba(0, 255, 0, 0.3);
+  overflow: hidden;
+}
+body #container #directory iframe {
+  width: 100%;
+  height: 100%;
 }
 body #container #filePage {
   width: 60vw;
   height: 100vh;
   background-color: rgba(0, 0, 255, 0.3);
+  overflow: hidden;
+}
+body #container #filePage iframe {
+  width: 100%;
+  height: 100%;
 }

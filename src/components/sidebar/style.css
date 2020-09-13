@@ -1,0 +1,85 @@
+#container #header {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+}
+#container #header #imgshell {
+  width: 65px;
+  height: 65px;
+  border: 1px solid #1e1e1e;
+  border-radius: 50%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+#container #header #imgshell img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+#container #name {
+  height: 20px;
+  text-align: center;
+  font-size: 12px;
+}
+#container #name .spanin {
+  transition: all 2s;
+  -webkit-transition: all 1s;
+  opacity: 1;
+}
+#container #name .spanout {
+  transition: all 2s;
+  -webkit-transition: all 1s;
+  opacity: 0;
+}
+#container #createBtn {
+  text-align: center;
+  margin-top: 5px;
+}
+#container #createBtn button {
+  background-color: #0097fb;
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  border-radius: 16px;
+  display: inline-block;
+  padding: 5px 30px;
+}
+#container #createBtn button img {
+  width: 16px;
+  margin-right: 10px;
+}
+#container #createBtn button:focus {
+  outline: none;
+}
+#container #createBtn button:hover {
+  cursor: pointer;
+}
+#container #menu {
+  margin-top: 20px;
+  font-size: 12px;
+}
+#container #menu img {
+  margin-right: 8px;
+  width: 18px;
+}
+#container #menu .mainmenu {
+  padding: 10px 0 10px 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-left: 5px solid #fff;
+  color: #000000;
+  cursor: default;
+  background-position: left center;
+  background-origin: padding-box;
+}
+#container #menu .mainmenu:hover {
+  background-color: rgba(0, 151, 251, 0.274);
+  border-left: 5px solid #0097fb;
+}
+#container #menu #mydirectory {
+  background-image: url("../../../assets/triangle_right_icon.svg");
+  background-repeat: no-repeat;
+  background-size: 10px;
+}
