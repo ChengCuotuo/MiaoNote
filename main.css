@@ -3,6 +3,8 @@ body {
   height: 0px;
 }
 body #container {
+  z-index: 0;
+  position: relative;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -11,7 +13,6 @@ body #container {
 body #container #sidebar {
   width: 20vw;
   height: 100vh;
-  background-color: #fff;
   overflow: hidden;
 }
 body #container #sidebar iframe {
@@ -37,4 +38,24 @@ body #container #filePage {
 body #container #filePage iframe {
   width: 100%;
   height: 100%;
+}
+body #operateDiv {
+  z-index: 1;
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  cursor: default;
+  background-color: #e9f3ff;
+}
+body #operateDiv img {
+  margin: 0 10px 3px 0;
+  width: 16px;
+}
+body #operateDiv .operation {
+  display: flex;
+  align-items: center;
+  padding: 3px 10px;
+}
+body #operateDiv .operation:hover {
+  background-color: rgba(0, 151, 251, 0.274);
 }

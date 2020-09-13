@@ -57,7 +57,7 @@
 }
 #container #menu {
   margin-top: 20px;
-  font-size: 12px;
+  font-size: 14px;
 }
 #container #menu img {
   margin-right: 8px;
@@ -73,6 +73,13 @@
   cursor: default;
   background-position: left center;
   background-origin: padding-box;
+  user-select: none;
+  -webkit-user-select: none;
+  /*webkit浏览器*/
+}
+#container #menu .clickMainmenu {
+  background-color: rgba(0, 151, 251, 0.274);
+  border-left: 5px solid #0097fb;
 }
 #container #menu .mainmenu:hover {
   background-color: rgba(0, 151, 251, 0.274);
@@ -82,4 +89,47 @@
   background-image: url("../../../assets/triangle_right_icon.svg");
   background-repeat: no-repeat;
   background-size: 10px;
+}
+#container #menu #menuBody .dirTitle {
+  padding: 10px 0 10px 20px;
+  border-left: 5px solid #fff;
+  color: #000000;
+  cursor: default;
+  user-select: none;
+  -webkit-user-select: none;
+  /*webkit浏览器*/
+}
+#container #menu #menuBody #menuRoot {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-origin: padding-box;
+}
+#container #menu #menuBody .triangleStyle {
+  background-position: left center;
+  background-origin: content-box;
+  background-repeat: no-repeat;
+  background-size: 10px;
+}
+#container #menu #menuBody .triangleRight {
+  background-position: left center;
+  background-origin: content-box;
+  background-repeat: no-repeat;
+  background-size: 10px;
+  background-image: url("../../../assets/triangle_right_icon.svg");
+}
+#container #menu #menuBody .triangleDown {
+  background-position: left center;
+  background-origin: content-box;
+  background-repeat: no-repeat;
+  background-size: 10px;
+  background-image: url("../../../assets/triangle_down_icon.svg");
+}
+#container #menu #menuBody .dirTitle:hover {
+  background-color: rgba(0, 151, 251, 0.15);
+  border-left: 5px solid #0097fb;
+}
+#container #menu #menuBody .clickDirTitle {
+  background-color: rgba(0, 151, 251, 0.274);
+  border-left: 5px solid #0097fb;
 }

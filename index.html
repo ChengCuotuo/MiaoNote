@@ -5,18 +5,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Miao_Note</title>
   <link rel="stylesheet" href="./main.css">
+  <script src="./action.js"></script>
 </head>
 
 <body>
   <div id="container">
     <div id="sidebar">
-      <iframe src="./src/components/sidebar/index.html" frameborder="0" scrolling="no"></iframe>
+      <iframe name="sidebar" src="./src/components/sidebar/index.html" frameborder="0" scrolling="no"></iframe>
     </div>
     <div id="directory">
-      <iframe src="./src/components/directory/index.html" frameborder="0" scrolling="no"></iframe>
+      <iframe name="directory" src="./src/components/directory/index.html" frameborder="0" scrolling="no"></iframe>
     </div>
     <div id="filePage">
-      <iframe src="./src/components/filePage/index.html" frameborder="0" scrolling="no"></iframe>
+      <iframe name="filePage" src="./src/components/filePage/index.html" frameborder="0" scrolling="no"></iframe>
+    </div>
+  </div>
+
+  <div id="operateDiv" style="display: none;">
+    <div id="addNode" class="operation">
+      <img src="./assets/createFile_icon.svg">
+      <span>新建文档</span>
+    </div>
+    <div id="deleteNode" class="operation">
+      <img src="./assets/deleteFile_icon.svg">
+      <span>删除文档</span>
+    </div>
+    <div id="addNode" class="operation">
+      <img src="./assets/createDir_icon.svg">
+      <span>新建文件夹</span>
+    </div>
+    <div id="deleteNode" class="operation">
+      <img src="./assets/deleteDir_icon.svg">
+      <span>删除文件夹</span>
     </div>
   </div>
 </body>
