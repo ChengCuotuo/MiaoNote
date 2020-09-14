@@ -15,6 +15,10 @@ const { resolve } = window.top.require('path')
 let appPath = resolve('./')
 let rootNode = new Node('menuRoot', 'dir', '主目录', `${appPath}`, null, [])
 
+
+
+
+
 // 造一些假数据
 const dir0 = new Node(1, 'dir', 'dir0', `${appPath}\\a`, null, [])
 const dir1 = new Node(2, 'dir', 'dir1', `${appPath}\\b`, null, [])

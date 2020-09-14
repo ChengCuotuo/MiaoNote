@@ -159,6 +159,7 @@ function nextFloorHasDir(nodes) {
 var findResult = {}
 var findId = null
 
+// 根据节点 id 查找 node
 function recursionFind(node, id) {
   this.findResult = {}
   if (this.findId != id) {

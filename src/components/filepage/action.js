@@ -14,7 +14,7 @@ window.onload = function() {
         title: titleValue ? titleValue : '',
           data: tinyMCE.activeEditor.getContent() ? tinyMCE.activeEditor.getContent() : ''
       }
-      _this.saveFile(JSON.stringify(data))
+      _this.saveFile(data)
     }
   })
 
@@ -27,14 +27,7 @@ window.onload = function() {
           title: titleValue ? titleValue : '',
           data: tinyMCE.activeEditor.getContent()
         }
-        _this.saveFile(JSON.stringify(data))
+        _this.saveFile(data)
       }
     })
-}
-
-let fs = window.top.require('fs')
-
-// 根据传递过来的 title 和 data 创建一个 文件名为 title.txt 的文件
-function saveFile(data) {
-  
 }
