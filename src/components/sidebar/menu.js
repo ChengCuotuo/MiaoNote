@@ -11,7 +11,7 @@ class Node {
 }
 
 // 使用 iframe 想使用 node 需要获取主文件所在的 window，这里直接使用顶级域的 window
-const { resolve } = window.top.require('path')
+// const { resolve } = window.top.require('path')    // 在引入的 utils 中已经存在
 let appPath = resolve('./')
 let rootNode = new Node('menuRoot', 'dir', '主目录', `${appPath}`, null, [])
 
