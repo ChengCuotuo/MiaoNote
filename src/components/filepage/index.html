@@ -4,12 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FilePage</title>
+  <link rel="stylesheet" href="./style.css">
   <link rel="stylesheet" href="../iframestyle.css">
+  <script src="./js/tinymce/tinymce.min.js"></script>
+  <script src="./configTiny.js"></script>
+  <script src="./action.js"></script>
 </head>
 <body>
   <div id="container">
-    <h2>FilePage</h2>
+    <div id="titleDiv">
+      <!-- wrap 不会自动换行  spellcheck 去除文本检测，不会出现波浪线-->
+      <textarea id="titleInput" wrap=off spellcheck="false"></textarea>
+    </div>
+    <div id="nodeDiv">
+      <textarea id="miaonote">Hello, World!</textarea>
+    </div>
   </div>
-  
 </body>
 </html>

@@ -1,0 +1,21 @@
+#container {
+  font-family: "Arial", "Microsoft YaHei", "黑体", "宋体", sans-serif;
+  width: 100vw;
+}
+#container #titleDiv {
+  height: 50px;
+  width: 100vw;
+}
+#container #titleDiv #titleInput {
+  border: none;
+  width: 100vw;
+  height: 100vh;
+  font-size: 20px;
+  padding: 10px 0 0 20px;
+  text-decoration: none;
+  font-weight: bold;
+}
+#container #nodeDiv {
+  height: calc(100vh - 50px);
+  width: 100vw;
+}
