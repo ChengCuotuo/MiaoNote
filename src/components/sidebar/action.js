@@ -35,12 +35,6 @@ window.onload = function() {
           other.classList.remove('clickDirTitle')
         }
       }
-
-      // 加载 nextNodes 中的内容到 directory 中
-      if (item.getAttribute('id') != _this.findId) {
-        _this.recursionFind(rootNode, item.getAttribute('id'))
-        console.log(findResult);
-      }
     })
 
     // 监听双击事件，将子级的 div dirContent 展示出来
@@ -59,6 +53,24 @@ window.onload = function() {
         
       }
     })
+
+    // 监听右键点击菜单
+    item.addEventListener('contextmenu', function(event) {
+      recentopenDiv.classList.remove('clickMainmenu')
+      item.classList.add('clickDirTitle')
+      for (let other of dirTitles) {
+        if (other.getAttribute('path') !== item.getAttribute('path')) {
+          other.classList.remove('clickDirTitle')
+        }
+      }
+
+      // 加载 nextNodes 中的内容到 directory 中
+      if (item.getAttribute('id') != _this.findId) {
+        _this.recursionFind(rootNode, item.getAttribute('id'))
+        // 将点击的菜单记录到 menu 的 rightClickMenu 中
+        rightClickMenu = findResult
+      }
+    })
   }
 
   recentopenDiv.addEventListener('click', function() {
@@ -66,6 +78,22 @@ window.onload = function() {
     for (let item of dirTitles) {
       item.classList.remove('clickDirTitle')
     }
+  })
+
+
+  //-----------------------------------监听主页面的事件------------------------------------
+  // 添加创建的文件夹的监听事件
+  let addDir = window.top.document.getElementById('addDir')
+  addDir.addEventListener('click', function() {
+    // 更新 rootNode 然后重新渲染菜单
+    let parentNode = document.getElementById(rightClickMenu.id)
+    // ToDo  在 parentNode 的同级，也就是 nextSibling 新建一个节点
+    // 初始为 input 当失去焦点之后编程 span，同时更新 rootMenu 的内容，此时需要向菜单文件中更新当前的目录结构
+
+    // let input = document.createElement('input')
+    // parentNode.appendChild(input)
+
+    console.log(parentNode);
   })
   
 }
@@ -119,13 +147,13 @@ function recursionAddMenu(node, floor, parentElement) {
     } else {  // 下一层级的都是文本文件
       // console.log(node.name + '----->' + floor)
       let spanEle = document.createElement('span')
-      spanEle.setAttribute('path', node.filePath)
       spanEle.style.paddingLeft = (floor * 20) + 'px'
       let spanTxt = document.createTextNode(node.name)
       spanEle.appendChild(spanTxt)
 
       let divSpan = document.createElement('div')
       divSpan.className = 'dirTitle'
+      divSpan.setAttribute('id', node.id)
       divSpan.setAttribute('path', node.filePath)
       divSpan.appendChild(spanEle)
 
