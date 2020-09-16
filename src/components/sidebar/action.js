@@ -15,8 +15,10 @@ window.onload = function() {
   let parentElement = document.getElementById('menuBody')
   // 添加所有的节点
   recursionAddMenu(rootNode, 0, parentElement)
+  
   // 给 menuRoot 添加 图标
   let menuRoot = document.getElementById('menuRoot')
+  menuRoot.style.paddingLeft = '20px'
   menuRoot.getElementsByTagName('span')[0].style.paddingLeft = '0px'
   let img = `<img src="../../../assets/folder_icon.svg">`
   menuRoot.innerHTML = img + menuRoot.innerHTML
@@ -39,18 +41,20 @@ window.onload = function() {
 
     // 监听双击事件，将子级的 div dirContent 展示出来
     item.addEventListener('dblclick', function() {
-      let dirContent = item.nextSibling
-      if (dirContent) {
-        if (dirContent.style.display == 'block') {
-          item.classList.remove('triangleDown')
-          item.classList.add('triangleRight')
-          dirContent.style.display = 'none'
-        } else {
-          item.classList.remove('triangleRight')
-          item.classList.add('triangleDown')
-          dirContent.style.display = 'block'
+      if(item.classList.contains('triangleRight') || item.classList.contains('triangleDown')) {
+        let dirContent = item.nextSibling
+        if (dirContent) {
+          if (dirContent.style.display == 'block') {
+            item.classList.remove('triangleDown')
+            item.classList.add('triangleRight')
+            dirContent.style.display = 'none'
+          } else {
+            item.classList.remove('triangleRight')
+            item.classList.add('triangleDown')
+            dirContent.style.display = 'block'
+          }
+          
         }
-        
       }
     })
 
@@ -86,14 +90,11 @@ window.onload = function() {
   let addDir = window.top.document.getElementById('addDir')
   addDir.addEventListener('click', function() {
     // 更新 rootNode 然后重新渲染菜单
-    let parentNode = document.getElementById(rightClickMenu.id)
-    // ToDo  在 parentNode 的同级，也就是 nextSibling 新建一个节点
-    // 初始为 input 当失去焦点之后编程 span，同时更新 rootMenu 的内容，此时需要向菜单文件中更新当前的目录结构
-
-    // let input = document.createElement('input')
-    // parentNode.appendChild(input)
-
-    console.log(parentNode);
+    rightClickMenu.nextNodes.push(new Node(1111, 'dir', '123', `123`, rightClickMenu, []))
+    let parentElement = document.getElementById('menuBody')
+    parentElement.innerHTML = ""
+    // 添加所有的节点，所有的监听事件都更新了
+    // recursionAddMenu(rootNode, 0, parentElement)
   })
   
 }
@@ -110,14 +111,16 @@ function recursionAddMenu(node, floor, parentElement) {
     if(nextFloorHasDir(node.nextNodes)) {  // 下一层级中包含文件夹
       // console.log(node.name + '----->' + floor)
       let spanEle = document.createElement('span')
-      spanEle.style.paddingLeft = (floor * 20) + 'px'
+      spanEle.style.paddingLeft = '20px'
       let spanTxt = document.createTextNode(node.name)
       spanEle.appendChild(spanTxt)
 
       let divSpan = document.createElement('div')
       divSpan.className = 'dirTitle'
+      divSpan.style.paddingLeft = (floor * 20) + "px"
       divSpan.setAttribute('id', node.id)
       divSpan.setAttribute('path', node.filePath)
+      divSpan.setAttribute('floor', floor + 1)
       divSpan.classList.add('triangleRight')
       divSpan.appendChild(spanEle)
       
@@ -147,19 +150,27 @@ function recursionAddMenu(node, floor, parentElement) {
     } else {  // 下一层级的都是文本文件
       // console.log(node.name + '----->' + floor)
       let spanEle = document.createElement('span')
-      spanEle.style.paddingLeft = (floor * 20) + 'px'
+      spanEle.style.paddingLeft = '20px'
       let spanTxt = document.createTextNode(node.name)
       spanEle.appendChild(spanTxt)
 
       let divSpan = document.createElement('div')
       divSpan.className = 'dirTitle'
+      divSpan.style.paddingLeft = (floor * 20) + "px"
       divSpan.setAttribute('id', node.id)
       divSpan.setAttribute('path', node.filePath)
+      divSpan.setAttribute('floor', floor + 1)
       divSpan.appendChild(spanEle)
 
+      let divEle = document.createElement('div')
+      divEle.style.display = 'none'
+      divEle.className = 'dirContent'
+
       let containerDiv = document.createElement('div')
+      containerDiv.setAttribute('floor', floor)
       containerDiv.className = 'singleDir'
       containerDiv.appendChild(divSpan)
+      containerDiv.appendChild(divEle)
 
       parentElement.appendChild(containerDiv)
      

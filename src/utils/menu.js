@@ -19,6 +19,7 @@ let rootNode = translateMenu()
 let deleteMenu = []
 if (!rootNode) {
   rootNode = new Node('menuRoot', 'dir', '主目录', `${appPath}`, null, [])  
+  saveMenu()
 }
 
 // 造一些假数据
@@ -36,3 +37,4 @@ if (!rootNode) {
 // dir1.nextNodes.push(dir1_0)
 // dir1.nextNodes.push(file1_0_0)
 // dir1_0.nextNodes.push(file1_0_0_0)
+// saveMenu()
