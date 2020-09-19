@@ -10,6 +10,7 @@ class Node {
   }
 }
 var rightClickMenu = {}
+var rightClickNode
 
 // 首先判断 menu.txt 菜单文件是否存在，如果不存在就创建，同时将 rootNode 写入到菜单中
 // 如果存在读取文件内容生成菜单 node 对象

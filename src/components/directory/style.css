@@ -1,0 +1,10 @@
+#container #searcDiv {
+  padding: 10px;
+}
+#container #filesDiv {
+  padding: 0 10px 10px 10px;
+}
+#container #filesDiv .fileName,
+#container #filesDiv .fileDesc {
+  margin: 5px 0;
+}

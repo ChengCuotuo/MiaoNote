@@ -5,6 +5,7 @@
 #container #titleDiv {
   height: 50px;
   width: 100vw;
+  border-left: 1px solid #cccccc;
 }
 #container #titleDiv #titleInput {
   border: none;

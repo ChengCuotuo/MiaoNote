@@ -1,3 +1,6 @@
+let _this = this
+// 使用 electron 中的 对话框
+const { dialog } = window.top.require('electron').remote
 window.onload = function() {
   let name = document.querySelector('#name span')
   let header = document.querySelector('#imgshell')
@@ -26,55 +29,8 @@ window.onload = function() {
 
   let dirTitles = document.getElementsByClassName('dirTitle')
   let recentopenDiv = document.getElementById('recentopen')
-  let _this = this
   for (let item of dirTitles) {
-    // 添加点击监听事件，做样式停留
-    item.addEventListener('click', function() {
-      recentopenDiv.classList.remove('clickMainmenu')
-      item.classList.add('clickDirTitle')
-      for (let other of dirTitles) {
-        if (other.getAttribute('path') !== item.getAttribute('path')) {
-          other.classList.remove('clickDirTitle')
-        }
-      }
-    })
-
-    // 监听双击事件，将子级的 div dirContent 展示出来
-    item.addEventListener('dblclick', function() {
-      if(item.classList.contains('triangleRight') || item.classList.contains('triangleDown')) {
-        let dirContent = item.nextSibling
-        if (dirContent) {
-          if (dirContent.style.display == 'block') {
-            item.classList.remove('triangleDown')
-            item.classList.add('triangleRight')
-            dirContent.style.display = 'none'
-          } else {
-            item.classList.remove('triangleRight')
-            item.classList.add('triangleDown')
-            dirContent.style.display = 'block'
-          }
-          
-        }
-      }
-    })
-
-    // 监听右键点击菜单
-    item.addEventListener('contextmenu', function(event) {
-      recentopenDiv.classList.remove('clickMainmenu')
-      item.classList.add('clickDirTitle')
-      for (let other of dirTitles) {
-        if (other.getAttribute('path') !== item.getAttribute('path')) {
-          other.classList.remove('clickDirTitle')
-        }
-      }
-
-      // 加载 nextNodes 中的内容到 directory 中
-      if (item.getAttribute('id') != _this.findId) {
-        _this.recursionFind(rootNode, item.getAttribute('id'))
-        // 将点击的菜单记录到 menu 的 rightClickMenu 中
-        rightClickMenu = findResult
-      }
-    })
+    this.dirTitleNodeAction(item, recentopenDiv, false, _this)
   }
 
   recentopenDiv.addEventListener('click', function() {
@@ -82,21 +38,143 @@ window.onload = function() {
     for (let item of dirTitles) {
       item.classList.remove('clickDirTitle')
     }
+
+    rightClickMenu = null
+    rightClickNode = null
   })
 
 
   //-----------------------------------监听主页面的事件------------------------------------
   // 添加创建的文件夹的监听事件
   let addDir = window.top.document.getElementById('addDir')
+  let operateDiv = window.top.document.getElementById('operateDiv')
   addDir.addEventListener('click', function() {
-    // 更新 rootNode 然后重新渲染菜单
-    rightClickMenu.nextNodes.push(new Node(1111, 'dir', '123', `123`, rightClickMenu, []))
-    let parentElement = document.getElementById('menuBody')
-    parentElement.innerHTML = ""
-    // 添加所有的节点，所有的监听事件都更新了
-    // recursionAddMenu(rootNode, 0, parentElement)
-  })
+    if (rightClickMenu && rightClickNode) {
+      operateDiv.style.display = 'none'
+      // 渲染节点
+      rightClickNode.classList.add('triangleDown')
+      let floor = rightClickNode.getAttribute('floor')
+      let uuid = _this.uuid()
+      let filePath = (rightClickMenu.filePath + '\\' + uuid)
+      let node = new Node(uuid, 'dir', '', filePath, rightClickMenu, [])
+      let { divSpan, containerDiv } = _this.createChildNode('input', '', floor, uuid, filePath, false, node)
+      // 渲染菜单文件
+      rightClickMenu.nextNodes.push(node)
   
+      rightClickNode.nextSibling.style.display = 'block'
+      rightClickNode.nextSibling.appendChild(containerDiv)
+      _this.dirTitleNodeAction(divSpan, recentopenDiv, true, _this)
+    }
+    
+  })
+
+  // 添加删除的文件夹的监听事件
+  let deleteDir = window.top.document.getElementById('deleteDir')
+  deleteDir.addEventListener('click', function() {
+    operateDiv.style.display = 'none'
+    // 弹出提示框
+    dialog.showMessageBox({
+      type: 'warning',
+      title: '提升',
+      message: '该文件夹下的文件也将被删除，确认删除吗？',
+      buttons: ['删除', '取消']
+    }).then(result => {
+      // 删除页面上的节点
+      // 删除目录文件
+      if (result.response === 0) {
+        // 遍历 rightClickMenu.preNode 根据 rightClickMenu.id 将其删除
+        let nextNodes = rightClickMenu.preNode.nextNodes
+        console.log(nextNodes.length);
+        for (let i = 0; i < nextNodes.length; i++) {
+          if (nextNodes[i].id === rightClickMenu.id) {
+            nextNodes.splice(i, 1)
+            break
+          }
+        }
+        console.log(nextNodes.length);
+        if (nextNodes.length === 0) {
+          rightClickNode.parentNode.parentNode.parentNode.firstChild.classList.remove('triangleDown')
+        }
+        rightClickNode.parentNode.parentNode.removeChild(rightClickNode.parentNode)
+        // 存储目录文件
+        saveMenu()  
+      }
+    })
+  })
+}
+
+
+// ----------------------------------------methods------------------------------------------------
+
+// dirTitleNode 的事件
+function dirTitleNodeAction(item, recentopenDiv, newNode, _this) {
+  let dirTitles = document.getElementsByClassName('dirTitle')
+  // 添加点击监听事件，做样式停留
+  item.addEventListener('click', function() {
+    recentopenDiv.classList.remove('clickMainmenu')
+    item.classList.add('clickDirTitle')
+    for (let other of dirTitles) {
+      if (other.getAttribute('path') !== item.getAttribute('path')) {
+        other.classList.remove('clickDirTitle')
+      }
+    }
+
+    if (item.getAttribute('id') != _this.findId) {
+      _this.recursionFind(rootNode, item.getAttribute('id'))
+      // 将点击的菜单记录到 menu 的 rightClickMenu 中
+      rightClickMenu = findResult
+      rightClickNode = item
+    }
+  })
+
+  // 监听双击事件，将子级的 div dirContent 展示出来
+  item.addEventListener('dblclick', function() {
+    if(item.classList.contains('triangleRight') || item.classList.contains('triangleDown')) {
+      let dirContent = item.nextSibling
+      if (dirContent) {
+        if (dirContent.style.display == 'block') {
+          item.classList.remove('triangleDown')
+          item.classList.add('triangleRight')
+          dirContent.style.display = 'none'
+        } else {
+          item.classList.remove('triangleRight')
+          item.classList.add('triangleDown')
+          dirContent.style.display = 'block'
+        }
+        
+      }
+    }
+  }, true)
+
+  // 监听右键点击菜单样式变化，以及存储点击元素
+  item.addEventListener('contextmenu', function(event) {
+    recentopenDiv.classList.remove('clickMainmenu')
+    item.classList.add('clickDirTitle')
+    for (let other of dirTitles) {
+      if (other.getAttribute('path') !== item.getAttribute('path')) {
+        other.classList.remove('clickDirTitle')
+      }
+    }
+
+    // 加载 nextNodes 中的内容到 directory 中
+    if (item.getAttribute('id') != _this.findId) {
+      _this.recursionFind(rootNode, item.getAttribute('id'))
+      // 将点击的菜单记录到 menu 的 rightClickMenu 中
+      rightClickMenu = findResult
+      rightClickNode = item
+    }
+
+    if (newNode) {
+      let operateDiv = window.top.document.getElementById('operateDiv')
+      let clientX = event.clientX
+      let clientY = event.clientY
+
+      operateDiv.style.left = clientX + 'px'
+      operateDiv.style.top = clientY + 'px'
+
+      operateDiv.style.display = 'block'
+    }
+  })
 }
 
 // 根据 menu 数据递归的添加数据
@@ -110,29 +188,8 @@ function recursionAddMenu(node, floor, parentElement) {
   if (node.type === 'dir') {
     if(nextFloorHasDir(node.nextNodes)) {  // 下一层级中包含文件夹
       // console.log(node.name + '----->' + floor)
-      let spanEle = document.createElement('span')
-      spanEle.style.paddingLeft = '20px'
-      let spanTxt = document.createTextNode(node.name)
-      spanEle.appendChild(spanTxt)
 
-      let divSpan = document.createElement('div')
-      divSpan.className = 'dirTitle'
-      divSpan.style.paddingLeft = (floor * 20) + "px"
-      divSpan.setAttribute('id', node.id)
-      divSpan.setAttribute('path', node.filePath)
-      divSpan.setAttribute('floor', floor + 1)
-      divSpan.classList.add('triangleRight')
-      divSpan.appendChild(spanEle)
-      
-      let divEle = document.createElement('div')
-      divEle.style.display = 'none'
-      divEle.className = 'dirContent'
-
-      let containerDiv = document.createElement('div')
-      containerDiv.className = 'singleDir'
-      containerDiv.appendChild(divSpan)
-      containerDiv.appendChild(divEle)
-
+      let { divEle, containerDiv } = this.createChildNode('span', node.name, floor, node.id, node.filePath, true, null)
       parentElement.appendChild(containerDiv)
 
 
@@ -148,39 +205,63 @@ function recursionAddMenu(node, floor, parentElement) {
         // }
       }
     } else {  // 下一层级的都是文本文件
-      // console.log(node.name + '----->' + floor)
-      let spanEle = document.createElement('span')
-      spanEle.style.paddingLeft = '20px'
-      let spanTxt = document.createTextNode(node.name)
-      spanEle.appendChild(spanTxt)
-
-      let divSpan = document.createElement('div')
-      divSpan.className = 'dirTitle'
-      divSpan.style.paddingLeft = (floor * 20) + "px"
-      divSpan.setAttribute('id', node.id)
-      divSpan.setAttribute('path', node.filePath)
-      divSpan.setAttribute('floor', floor + 1)
-      divSpan.appendChild(spanEle)
-
-      let divEle = document.createElement('div')
-      divEle.style.display = 'none'
-      divEle.className = 'dirContent'
-
-      let containerDiv = document.createElement('div')
-      containerDiv.setAttribute('floor', floor)
-      containerDiv.className = 'singleDir'
-      containerDiv.appendChild(divSpan)
-      containerDiv.appendChild(divEle)
-
-      parentElement.appendChild(containerDiv)
-     
-
-      // if (node.nextNodes && node.nextNodes.length > 0) {
-      //   console.log(node.nextNodes);
-      // }
+      parentElement.appendChild(this.createChildNode('span', node.name, floor, node.id, node.filePath, false, null).containerDiv)
     }
   } 
   // 从根目录进入，所有文本文件都会在 dir 文件夹下进行处理
+}
+
+// 创建一个子节点
+// 节点类型 节点名称 节点层级 节点 id 节点对应存储位置  该节点下一层是否还有文件夹  
+function createChildNode(type, name, floor, id, filePath, hasDir, node) {
+  let inputName = name
+  let spanEle = document.createElement(type)
+  if (type === 'input') {
+    spanEle.style.marginLeft = '20px'
+  } else if (type == 'span') {
+    spanEle.style.paddingLeft = '20px'
+    let spanTxt = document.createTextNode(name)
+    spanEle.appendChild(spanTxt)
+  }
+
+  let divSpan = document.createElement('div')
+  divSpan.className = 'dirTitle'
+  divSpan.style.paddingLeft = (floor * 20) + "px"
+  divSpan.setAttribute('id', id)
+  divSpan.setAttribute('path', filePath)
+  if (hasDir) {
+    divSpan.classList.add('triangleRight')
+  }
+  divSpan.setAttribute('floor', parseInt(floor) + 1)
+  divSpan.appendChild(spanEle)
+
+  let divEle = document.createElement('div')
+  divEle.style.display = 'none'
+  divEle.className = 'dirContent'
+
+  let containerDiv = document.createElement('div')
+  containerDiv.setAttribute('floor', floor)
+  containerDiv.className = 'singleDir'
+  containerDiv.appendChild(divSpan)
+  containerDiv.appendChild(divEle)
+
+
+  if (type === 'input') {
+    spanEle.addEventListener('change', function () {
+      let newSpanEle = document.createElement('span')
+      newSpanEle.style.paddingLeft = '20px'
+      inputName = spanEle.value
+      let newSpanTxt = document.createTextNode(spanEle.value)
+      newSpanEle.appendChild(newSpanTxt)
+      divSpan.appendChild(newSpanEle)
+      divSpan.removeChild(spanEle)
+      node.name = inputName
+      // 存储目录文件
+      saveMenu()
+    }) 
+  }
+
+  return {divSpan: divSpan, divEle: divEle, containerDiv: containerDiv}
 }
 
 function nextFloorHasDir(nodes) {

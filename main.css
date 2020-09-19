@@ -22,7 +22,7 @@ body #container #sidebar iframe {
 body #container #directory {
   width: 20vw;
   height: 100vh;
-  background-color: rgba(0, 255, 0, 0.3);
+  background-color: #fafafa;
   overflow: hidden;
 }
 body #container #directory iframe {
@@ -32,7 +32,6 @@ body #container #directory iframe {
 body #container #filePage {
   width: 60vw;
   height: 100vh;
-  background-color: rgba(0, 0, 255, 0.3);
   overflow: hidden;
 }
 body #container #filePage iframe {
