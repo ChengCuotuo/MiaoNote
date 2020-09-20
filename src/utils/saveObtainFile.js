@@ -2,8 +2,11 @@ const { writeFile, readFileSync, existsSync, mkdirSync } = window.top.require('f
 const { resolve } = window.top.require('path')
 
 // 保存文件
-function saveFile(data) {
-  let path = resolve('./') + '\\src\\content\\' + data.title + '.txt'
+function saveFile(filePath, data) {
+  let path = filePath
+  if (path === 'menu') {
+    path = resolve('./') + '\\src\\content\\' + data.title + '.txt'
+  } 
   writeFile(path, JSON.stringify(data), { flag: 'w', encoding: "utf-8" }, function(err) {
     if (err) {
       let option = {
@@ -45,7 +48,11 @@ function obtainFile(filePath, fileName) {
     // 创建文件目录
     createFileMenu(newPath.substring(0, newPath.lastIndexOf('\\')) + '\\')
     // 创建文件
-    writeFile(newPath, "Hello, world!", { flag: 'w', encoding: "utf-8" }, function(err) {
+    let data = {
+      title: '新建文件夹',
+      data: 'Hello, World!'
+    }
+    writeFile(newPath, JSON.stringify(data), { flag: 'w', encoding: "utf-8" }, function(err) {
       if (err) {
         console.log(err, '创建失败');
       } else {
@@ -135,5 +142,5 @@ function saveMenu() {
     data: jsonNode,
     delete: deleteMenu
   }
-  saveFile(data)
+  saveFile('menu', data)
 }

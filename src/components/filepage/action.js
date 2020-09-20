@@ -14,20 +14,20 @@ window.onload = function() {
         title: titleValue ? titleValue : '',
         data: tinyMCE.activeEditor.getContent() ? tinyMCE.activeEditor.getContent() : ''
       }
-      _this.saveFile(data)
+      _this.saveFile(that.filePath, data)
     }
   })
 
-    // 监听 ctrl + s
-    let container = document.getElementById('miaonote_ifr').contentDocument
-    container.addEventListener('keydown', function(event) {
-      if (event.key === 's' && event.ctrlKey) {
-        let titleValue = document.getElementById('titleInput').value
-        let data = {
-          title: titleValue ? titleValue : '',
-          data: tinyMCE.activeEditor.getContent()
-        }
-        _this.saveFile(data)
+  // 监听 ctrl + s
+  let container = document.getElementById('miaonote_ifr').contentDocument
+  container.addEventListener('keydown', function(event) {
+    if (event.key === 's' && event.ctrlKey) {
+      let titleValue = document.getElementById('titleInput').value
+      let data = {
+        title: titleValue ? titleValue : '',
+        data: tinyMCE.activeEditor.getContent()
       }
-    })
+      _this.saveFile(that.filePath, data)
+    }
+  })
 }

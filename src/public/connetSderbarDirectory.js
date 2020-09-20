@@ -1,4 +1,6 @@
 let directoryDocument = window.top.document.getElementsByName('directory')[0].contentDocument
+let that = window.top.document.getElementsByName('filePage')[0].contentWindow
+let fileDocument = window.top.document.getElementsByName('filePage')[0].contentDocument
 let afterRenderDirectory = false
 function renderDirectory(rightClickMenu) {
   rightClickMenu.nextNodes.sort((first, second) => {
@@ -106,12 +108,18 @@ function createFileNode(node) {
 // 调用 util 中的读取文件
 function handleReloadFileRead(menu) {
   if (menu.type === 'file') {
-    let data = obtainFile(menu.filePath, menu.name + ".txt")
+    let fileName = menu.filePath.substring(menu.filePath.lastIndexOf('\\'))
+    let data = obtainFile(menu.filePath, fileName + ".txt")
     // 数据读取成功，写入到编辑面板
     if (data) {
-      // 获取编辑面板 window 对象
-      let that = window.top.document.getElementsByName('filePage')[0].contentWindow
-      that.tinyMCE.activeEditor.setContent(data)
+      let parseData = JSON.parse(data)
+      that.filePath = menu.filePath + "\\" + fileName + ".txt"
+      // 设置标题
+      let titleInput = fileDocument.getElementById('titleInput')
+      // console.log(titleInput);
+      titleInput.value = parseData.title
+      // 设置编辑面板内容
+      that.tinyMCE.activeEditor.setContent(parseData.data)
     }
   } else {
     obtainFile(menu.filePath)
