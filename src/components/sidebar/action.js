@@ -76,7 +76,7 @@ window.onload = function() {
       // 弹出提示框
       dialog.showMessageBox({
         type: 'warning',
-        title: '提升',
+        title: '提示',
         message: '该文件夹下的文件也将被删除，确认删除吗？',
         buttons: ['删除', '取消']
       }).then(result => {

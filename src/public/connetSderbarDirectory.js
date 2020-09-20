@@ -50,7 +50,8 @@ function renderDirectory(rightClickMenu) {
       _this.rightClickMenu = _this.findResult
       _this.rightClickNode = singleFileDiv
 
-      // console.log(_this.rightClickMenu);
+      // 监听，如果当前点击的是 file 读取文件加载在 filepage 的编辑页面中
+      handleReloadFileRead(_this.rightClickMenu)
     })
   });
 }
@@ -97,5 +98,22 @@ function createFileNode(node) {
       rightClickMenu = findResult
       rightClickNode = singleFileDiv
     }
+
+    handleReloadFileRead(rightClickMenu)
   })
+}
+
+// 调用 util 中的读取文件
+function handleReloadFileRead(menu) {
+  if (menu.type === 'file') {
+    let data = obtainFile(menu.filePath, menu.name + ".txt")
+    // 数据读取成功，写入到编辑面板
+    if (data) {
+      // 获取编辑面板 window 对象
+      let that = window.top.document.getElementsByName('filePage')[0].contentWindow
+      that.tinyMCE.activeEditor.setContent(data)
+    }
+  } else {
+    obtainFile(menu.filePath)
+  }
 }

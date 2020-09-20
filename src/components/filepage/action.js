@@ -12,7 +12,7 @@ window.onload = function() {
       let titleValue = titleArea.value
       let data = {
         title: titleValue ? titleValue : '',
-          data: tinyMCE.activeEditor.getContent() ? tinyMCE.activeEditor.getContent() : ''
+        data: tinyMCE.activeEditor.getContent() ? tinyMCE.activeEditor.getContent() : ''
       }
       _this.saveFile(data)
     }
