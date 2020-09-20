@@ -5,9 +5,11 @@ window.onload = function () {
   let dirTitles = sidebarDoc.getElementsByClassName('dirTitle')
   let operateDiv = document.getElementById('operateDiv')
   let createBtn = sidebarDoc.getElementById('createBtn')
+  let deleteFile = document.getElementById('deleteFile')
 
   for (let item of dirTitles) {
     item.addEventListener('contextmenu', function(event) {
+      deleteFile.style.display = 'none'
       let clientX = event.clientX
       let clientY = event.clientY
 
@@ -33,6 +35,8 @@ window.onload = function () {
 
   // 监听点击添加按钮
   createBtn.addEventListener('click', function() {
+    deleteFile.style.display = 'block'
+
     operateDiv.style.left = '36px'
     operateDiv.style.top = '140px'
     operateDiv.style.display = 'block'

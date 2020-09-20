@@ -6,15 +6,28 @@
   <title>Directory</title>
   <link rel="stylesheet" href="../iframestyle.css">
   <link rel="stylesheet" href="./style.css">
+  <script src="./action.js"></script>
+  <script src="../../public/sconnetSderbarDirectory.js"></script>
 </head>
 <body>
   <div id="container">
-    <div id="searcDiv">搜索框</div>
+    <div id="searchDiv">
+      <textarea id="searchTextArea" wrap=off spellcheck="false" placeholder="回车搜索..."></textarea>
+    </div>
+    <div id="currentFile">
+      <span style="margin-left: 10px;">当前文件：</span>
+      <span id="pathSpan"></span>
+    </div>
     <div id="filesDiv">
       <div class="singleFile">
-        <h4 class="fileName">文件名</h4>
+        <div class="fileNameDiv">
+          <img src="../../../assets/directory_icon.svg">
+          <span class="fileName">文件名</span>
+        </div>
         <p class="fileDesc">文件简单描述</p>
-        <span class="fileInfo">文件信息</span>
+        <div class="fileInfoDiv">
+          <span class="fileInfo">文件信息</span>
+        </div>
       </div>
     </div>
   </div>

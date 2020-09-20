@@ -1,10 +1,42 @@
-#container #searcDiv {
-  padding: 10px;
+#container #searchDiv #searchTextArea {
+  border: none;
+  width: 90vw;
+  height: 30px;
+  font-size: 20px;
+  padding: 10px 0 0 10px;
+  text-decoration: none;
+  font-weight: bold;
+  resize: none;
+  outline: none;
+  overflow: hidden;
 }
-#container #filesDiv {
-  padding: 0 10px 10px 10px;
+#container #currentFile {
+  padding: 5px 0;
+  border: 1px solid orange;
+  border-radius: 5px;
 }
-#container #filesDiv .fileName,
-#container #filesDiv .fileDesc {
+#container #filesDiv .singleFileBackColor {
+  background-color: #f2f2f2;
+}
+#container #filesDiv .singleFile {
+  padding: 10px 10px;
+}
+#container #filesDiv .singleFile .fileNameDiv {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+#container #filesDiv .singleFile .fileNameDiv img {
+  width: 16px;
+  margin-right: 5px;
+}
+#container #filesDiv .singleFile .fileNameDiv .fileName {
   margin: 5px 0;
+}
+#container #filesDiv .singleFile .fileDesc {
+  margin: 5px 0;
+}
+#container #filesDiv .singleFile:hover {
+  background-color: #f2f2f2;
+  cursor: default;
 }

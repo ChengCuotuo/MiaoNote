@@ -71,35 +71,68 @@ window.onload = function() {
   // 添加删除的文件夹的监听事件
   let deleteDir = window.top.document.getElementById('deleteDir')
   deleteDir.addEventListener('click', function() {
-    operateDiv.style.display = 'none'
-    // 弹出提示框
-    dialog.showMessageBox({
-      type: 'warning',
-      title: '提升',
-      message: '该文件夹下的文件也将被删除，确认删除吗？',
-      buttons: ['删除', '取消']
-    }).then(result => {
-      // 删除页面上的节点
-      // 删除目录文件
-      if (result.response === 0) {
-        // 遍历 rightClickMenu.preNode 根据 rightClickMenu.id 将其删除
-        let nextNodes = rightClickMenu.preNode.nextNodes
-        console.log(nextNodes.length);
-        for (let i = 0; i < nextNodes.length; i++) {
-          if (nextNodes[i].id === rightClickMenu.id) {
-            nextNodes.splice(i, 1)
-            break
+    if (rightClickMenu && rightClickNode && rightClickMenu.type === 'dir') {
+      operateDiv.style.display = 'none'
+      // 弹出提示框
+      dialog.showMessageBox({
+        type: 'warning',
+        title: '提升',
+        message: '该文件夹下的文件也将被删除，确认删除吗？',
+        buttons: ['删除', '取消']
+      }).then(result => {
+        // 删除页面上的节点
+        // 删除目录文件
+        if (result.response === 0) {
+          // 遍历 rightClickMenu.preNode 根据 rightClickMenu.id 将其删除
+          let nextNodes = rightClickMenu.preNode.nextNodes
+          // console.log(nextNodes.length);
+          for (let i = 0; i < nextNodes.length; i++) {
+            if (nextNodes[i].id === rightClickMenu.id) {
+              nextNodes.splice(i, 1)
+              break
+            }
           }
+          // console.log(nextNodes.length);
+          if (nextNodes.length === 0) {
+            rightClickNode.parentNode.parentNode.parentNode.firstChild.classList.remove('triangleDown')
+          }
+          rightClickNode.parentNode.parentNode.removeChild(rightClickNode.parentNode)
+          // 存储目录文件
+          saveMenu()  
         }
-        console.log(nextNodes.length);
-        if (nextNodes.length === 0) {
-          rightClickNode.parentNode.parentNode.parentNode.firstChild.classList.remove('triangleDown')
+      })
+    }
+  })
+
+  // 添加创建文件的监听事件
+  let addFile = window.top.document.getElementById('addFile')
+  addFile.addEventListener('click', function() {
+    if (rightClickMenu && rightClickNode) {
+      operateDiv.style.display = 'none'
+      let uuid = _this.uuid()
+      let filePath = (rightClickMenu.filePath + '\\' + uuid)
+      let node = new Node(uuid, 'file', '', filePath, rightClickMenu, [])
+      rightClickMenu.nextNodes.push(node)
+      // 创建文件节点
+      _this.createFileNode(node)
+    }
+  })
+
+  // 添加删除文件的监听事件
+  let deleteFile = window.top.document.getElementById('deleteFile')
+  deleteFile.addEventListener('click', function() {
+    if (rightClickMenu && rightClickNode && rightClickMenu.type === 'file') {
+      operateDiv.style.display = 'none'
+      let nextNodes = rightClickMenu.preNode.nextNodes
+      for (let i = 0; i < nextNodes.length; i++) {
+        if (nextNodes[i].id === rightClickMenu.id) {
+          nextNodes.splice(i, 1)
+          break
         }
-        rightClickNode.parentNode.parentNode.removeChild(rightClickNode.parentNode)
-        // 存储目录文件
-        saveMenu()  
       }
-    })
+      rightClickNode.parentNode.removeChild(rightClickNode)
+      saveMenu()
+    }
   })
 }
 
@@ -119,11 +152,15 @@ function dirTitleNodeAction(item, recentopenDiv, newNode, _this) {
       }
     }
 
+    // 将选中的节点存起来--> 选中节点有两种，左键选中菜单和右键选中菜单
     if (item.getAttribute('id') != _this.findId) {
       _this.recursionFind(rootNode, item.getAttribute('id'))
       // 将点击的菜单记录到 menu 的 rightClickMenu 中
       rightClickMenu = findResult
       rightClickNode = item
+
+      // 渲染文件到 directory 部分
+      _this.renderDirectory(rightClickMenu)
     }
   })
 
