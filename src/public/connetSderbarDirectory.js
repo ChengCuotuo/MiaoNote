@@ -114,6 +114,8 @@ function handleReloadFileRead(menu) {
     if (data) {
       let parseData = JSON.parse(data)
       that.filePath = menu.filePath + "\\" + fileName + ".txt"
+      that._this = _this
+      that.rightClickNode = _this.rightClickNode
       // 设置标题
       let titleInput = fileDocument.getElementById('titleInput')
       // console.log(titleInput);

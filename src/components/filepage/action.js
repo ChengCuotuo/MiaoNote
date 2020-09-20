@@ -1,6 +1,4 @@
 window.onload = function() {
-  let _this = this
-
   let titleArea = document.getElementById('titleInput')
   titleArea.addEventListener('keydown', function(event) {
     if(event.key == 'Enter'){
@@ -14,7 +12,12 @@ window.onload = function() {
         title: titleValue ? titleValue : '',
         data: tinyMCE.activeEditor.getContent() ? tinyMCE.activeEditor.getContent() : ''
       }
+      
+      _this.rightClickNode.getElementsByClassName('fileName')[0].innerHTML = titleValue
+      _this.rightClickMenu.name = titleValue
+      console.log('rightClickMenu', _this.rightClickMenu);
       _this.saveFile(that.filePath, data)
+      _this.saveMenu()
     }
   })
 
@@ -27,7 +30,11 @@ window.onload = function() {
         title: titleValue ? titleValue : '',
         data: tinyMCE.activeEditor.getContent()
       }
+      _this.rightClickNode.getElementsByClassName('fileName')[0].innerHTML = titleValue
+      _this.rightClickMenu.name = titleValue
+      console.log('rightClickMenu', _this.rightClickMenu);
       _this.saveFile(that.filePath, data)
+      _this.saveMenu()
     }
   })
 }

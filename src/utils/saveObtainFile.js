@@ -137,6 +137,7 @@ function recursionMenuToLink (preNodeObj, nodeObj, menuObj) {
 function saveMenu() {
   var jsonNode = {}
   translateNode2JSON(jsonNode, rootNode)
+  console.log('rootNode', rootNode);
   let data = {
     title: "menu",
     data: jsonNode,
