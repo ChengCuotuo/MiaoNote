@@ -20,6 +20,8 @@ let rootNode = translateMenu()
 let deleteMenu = []
 if (!rootNode) {
   rootNode = new Node('menuRoot', 'dir', '主目录', `${appPath}`, null, [])  
+  // 先创建文件路径
+  createFileMenu(resolve('./') + '\\src\\content\\')
   saveMenu()
 }
 

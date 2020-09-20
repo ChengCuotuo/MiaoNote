@@ -15,7 +15,7 @@ window.onload = function() {
       
       _this.rightClickNode.getElementsByClassName('fileName')[0].innerHTML = titleValue
       _this.rightClickMenu.name = titleValue
-      console.log('rightClickMenu', _this.rightClickMenu);
+      // console.log('rightClickMenu', _this.rightClickMenu);
       _this.saveFile(that.filePath, data)
       _this.saveMenu()
     }

@@ -33,17 +33,16 @@ function obtainFile(filePath, fileName) {
   // console.log('newPath', newPath);
   let hasFile = existsSync(newPath)
   if (fileName && hasFile) {
-    return readFileSync(newPath, { flag: 'r', encoding: "utf-8"}, function(err, data) {
-      if (err) {
-        let option = {
-          title: '文件读取结果',
-          body: '读取失败',
-        }
-        new window.Notification(option.title, option)
-      } else {
-        console.log(data);
+    try {
+      return readFileSync(newPath, "utf-8")
+    } catch(error) {
+      let option = {
+        title: '文件读取结果',
+        body: '读取失败',
       }
-    })
+      new window.Notification(option.title, option)
+    }
+    
   } else if (fileName && !hasFile) {
     // 创建文件目录
     createFileMenu(newPath.substring(0, newPath.lastIndexOf('\\')) + '\\')
@@ -103,9 +102,7 @@ function translateNode2JSON(obj, node) {
 function translateMenu() {
   let path = resolve('./') + '\\src\\content'
   // 判断文件是否存在
-  let hasFile = existsSync(path, function(exists) {
-    return exists
-  })
+  let hasFile = existsSync(path + "\\menu.txt")
 
   if (!hasFile) return false
   let result = obtainFile(path, 'menu.txt')
