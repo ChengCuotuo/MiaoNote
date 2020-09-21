@@ -1,3 +1,6 @@
+#container #searchDiv {
+  height: 40px;
+}
 #container #searchDiv #searchTextArea {
   border: none;
   width: 90vw;
@@ -11,9 +14,15 @@
   overflow: hidden;
 }
 #container #currentFile {
+  height: 24px;
   padding: 5px 0;
   border: 1px solid orange;
   border-radius: 5px;
+}
+#container #filesDiv {
+  height: calc(100% - 64px);
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 #container #filesDiv .singleFileBackColor {
   background-color: #f2f2f2;

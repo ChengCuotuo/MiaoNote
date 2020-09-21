@@ -90,6 +90,18 @@ function createFileNode(node) {
     fileNameDiv.appendChild(fileName)
     singleFileDiv.appendChild(fileNameDiv)
     _this.saveMenu()
+
+    if (singleFileDiv.getAttribute('id') != _this.findId) {
+      _this.recursionFind(rootNode, singleFileDiv.getAttribute('id'))
+      // 将点击的菜单记录到 menu 的 rightClickMenu 中
+      rightClickMenu = findResult
+      rightClickNode = singleFileDiv
+    }
+    handleReloadFileRead(rightClickMenu)
+
+    // 设置文本域的文本标题为 input.value
+    let titleInput = fileDocument.getElementById('titleInput')
+    titleInput.value = input.value
   })
 
   singleFileDiv.addEventListener('click', function() {
